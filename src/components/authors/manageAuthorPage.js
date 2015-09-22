@@ -3,10 +3,26 @@
 var React = require('react');
 var AuthorForm = require('./authorForm');
 
+// This is the controller view, the top level component
 var ManageAuthorPage = React.createClass({
+  getInitialState: function() {
+    return {
+      author: { id: '', firstName: '', lastName: '' }
+    };
+  },
+
+  setAuthorState: function(event) { //will get called every keypress
+    var field = event.target.name;
+    var value = event.target.value;
+    this.state.author[field] = value;
+    return this.setState({author: this.state.author});
+  },
+
   render: function() {
     return (
-      <AuthorForm />
+      <AuthorForm
+        author={this.state.author}
+        onChange={this.setAuthorState} />
     );
   }
 });
