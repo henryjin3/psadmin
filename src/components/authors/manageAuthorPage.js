@@ -14,10 +14,12 @@ var ManageAuthorPage = React.createClass({
 
   getInitialState: function() {
     return {
-      author: { id: '', firstName: '', lastName: '' }
+      author: { id: '', firstName: '', lastName: '' },
+      errors: {}
     };
   },
 
+/* Special author specific functions */
   setAuthorState: function(event) { //will get called every keypress
     var field = event.target.name;
     var value = event.target.value;
@@ -25,19 +27,45 @@ var ManageAuthorPage = React.createClass({
     return this.setState({author: this.state.author});
   },
 
+  authorFormIsValid: function() {
+    var formIsValid = true;
+    this.state.errors = {}; //clear any previous errors
+
+    if(this.state.author.firstName.length < 3) {
+      this.state.errors.firstName = 'First name must be at least 3 characters';
+      formIsValid = false;
+    }
+    if(this.state.author.lastName.length < 3) {
+      this.state.errors.lastName = 'Last name must be at least 3 characters';
+      formIsValid = false;
+    }
+
+    //Interestingly https://facebook.github.io/react/docs/component-api.html says
+    //to never mutate state directly, but to always use setState - seems like
+    //we should be using a local errors variable here?
+    this.setState({errors: this.state.errors});
+    return formIsValid;
+  },
+
   saveAuthor: function(event) {
     event.preventDefault();
+    if(!this.authorFormIsValid()) {
+      return;
+    }
+
     AuthorApi.saveAuthor(this.state.author);
     toastr.success('Author saved.');
     this.transitionTo('authors');
   },
+/* end author specific functions */
 
   render: function() {
     return (
       <AuthorForm
         author={this.state.author}
         onChange={this.setAuthorState}
-        onSave={this.saveAuthor} />
+        onSave={this.saveAuthor}
+        errors={this.state.errors}/>
     );
   }
 });
