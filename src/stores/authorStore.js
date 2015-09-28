@@ -37,9 +37,15 @@ var AuthorStore = assign({}, EventEmitter.prototype, {
 Dispatcher.register(function(action) {
   // every store is notified of every single action
   switch(action.actionType) {
+    case ActionTypes.INITIALIZE:
+      _authors = action.initialData.authors;
+      AuthorStore.emitChange();
+      break;
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
+      break;
+    default: //do nothing
   }
 });
 
