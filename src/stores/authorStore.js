@@ -45,6 +45,13 @@ Dispatcher.register(function(action) {
       _authors.push(action.author);
       AuthorStore.emitChange();
       break;
+    case ActionTypes.UPDATE_AUTHOR:
+      //mmm, so, how would this work in the real world?
+      var existingAuthor = _.find(_authors, {id: action.author.id});
+      var existingAuthorIndex = _.indexOf(_authors, existingAuthor);
+      _authors.splice(existingAuthorIndex, 1, action.author);
+      AuthorStore.emitChange();
+      break;
     default: //do nothing
   }
 });
