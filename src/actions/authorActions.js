@@ -16,13 +16,23 @@ var AuthorActions = {
   },
 
   updateAuthor: function(author) {
-      var updatedAuthor = AuthorApi.saveAuthor(author);
+    var updatedAuthor = AuthorApi.saveAuthor(author);
 
-      Dispatcher.dispatch({
-        actionType: ActionTypes.UPDATE_AUTHOR,
-        author: updatedAuthor
-      });
-    }
+    Dispatcher.dispatch({
+      actionType: ActionTypes.UPDATE_AUTHOR,
+      author: updatedAuthor
+    });
+  },
+
+  deleteAuthor: function(id) {
+    AuthorApi.deleteAuthor(id);
+
+    Dispatcher.dispatch({
+      actionType: ActionTypes.DELETE_AUTHOR,
+      id: id
+    });
+  }
+
 };
 
 module.exports = AuthorActions;
