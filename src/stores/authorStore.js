@@ -37,7 +37,7 @@ var AuthorStore = assign({}, EventEmitter.prototype, {
 Dispatcher.register(function(action) {
   // every store is notified of every single action
   switch(action.actionType) {
-    case: ActionTypes.CREATE_AUTHOR:
+    case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
   }
