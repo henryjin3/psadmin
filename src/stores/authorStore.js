@@ -21,4 +21,11 @@ var AuthorStore = assign({}, EventEmitter.prototype, {
   }
 });
 
+// private implementation detail so it doesn't get exported
+Dispatcher.register(function(action) {
+  // every store is notified of every single action
+  switch(action.actionType) {
+  }
+});
+
 module.exports = AuthorStore;
